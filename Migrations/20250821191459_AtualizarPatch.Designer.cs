@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InitCRUD.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20250820175231_STATUSInclude")]
-    partial class STATUSInclude
+    [Migration("20250821191459_AtualizarPatch")]
+    partial class AtualizarPatch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,9 +26,11 @@ namespace InitCRUD.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Prioridade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Todo")
                         .IsRequired()

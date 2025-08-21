@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InitCRUD.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AtualizarPatch : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,9 @@ namespace InitCRUD.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Todo = table.Column<string>(type: "TEXT", nullable: false)
+                    Todo = table.Column<string>(type: "TEXT", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    Prioridade = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

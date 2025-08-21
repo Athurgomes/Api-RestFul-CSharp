@@ -12,7 +12,7 @@ public static class TodoRoute
 
         route.MapPost("", async (TodoRequest req, TodoContext context) =>
         {
-            var todos=new TodoModels(req.Todo, req.Status);
+            var todos=new TodoModels(req.Todo, req.Status,  req.Prioridade);
             await context.AddAsync(todos);
             await context.SaveChangesAsync();
         });
@@ -22,24 +22,34 @@ public static class TodoRoute
             var todos = await context.Todos.ToListAsync();
             return Results.Ok(todos);
         });
-
+        
         route.MapPut("{id:guid}", async (Guid id, TodoRequest req, TodoContext context) =>
         {
             var todos = await context.Todos.FirstOrDefaultAsync(x => x.Id == id);
             if(todos==null)
                 return Results.NotFound();
-            todos.UpdateTodo(req.Todo, req.Status);
+            todos.UpdateTodo(req.Todo, req.Status, req.Prioridade);
             await context.SaveChangesAsync();
             return  Results.Ok(todos);
         });
         
-        route.MapPatch("{id:guid}", async (Guid id, TodoRequest req, TodoContext context) =>
+        route.MapPatch("{id:guid}", async (Guid id, TodoPatchRequest req, TodoContext context) =>
         {
             var todos = await context.Todos.FirstOrDefaultAsync(x => x.Id == id);
             if(todos==null)
                 return Results.NotFound();
-            todos.ChangeTodo(req.Todo);
-            todos.ChangeStatus(req.Status);
+            if (req.Todo!=null)
+            {
+                todos.ChangeTodo(req.Todo);
+            }
+            if (req.Status != null)
+            {
+                todos.ChangeStatus(req.Status.Value);
+            }
+            if (req.Prioridade != null)
+            {
+                todos.ChangePrioridade(req.Prioridade.Value);
+            }
             await context.SaveChangesAsync();
             return  Results.Ok(todos);
         });
